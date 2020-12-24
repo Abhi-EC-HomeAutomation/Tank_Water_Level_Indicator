@@ -16,7 +16,17 @@ NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // NewPing setup of pins and
 
 
 //Variables
-int sonarValue = 0; // for storing raw readings from the sensor
+int sonarValue = 0; // for storing calculated readings from the sensor
+int sonarValLast = 0;
+int sonarValCurr = 0;
+int changeLimit = 30; // original is 5
+const int indexLimit = 10;
+int readings[indexLimit];
+int prevIndexReading = 0;
+int totalVal = 0;
+int avgVal = 0;
+int indexNum = 0;
+const int tankReadingAvg = 10;
 
 
 //defining empty functions
@@ -30,12 +40,39 @@ void setup() {
 
 void loop() {
 
+  // fetching sonar value into variable
   sonarValue = getWaterLevel();
   Serial.println(sonarValue);
 
+  // This line is optional
   delay(1000);
 }
 
-int getWaterLevel() {
-  return sonar.ping_cm();
+int getWaterLevel()
+{
+  sonarValLast = sonarValCurr;
+  sonarValCurr = sonar.ping_cm(); //Get range in cm
+
+  if (sonarValCurr <= 0) 
+  {
+    sonarValCurr = sonarValLast;
+  }
+  else if (abs(sonarValCurr - sonarValLast) > changeLimit)
+  {
+    if (sonarValCurr < sonarValLast)
+    {
+      sonarValCurr = sonarValLast - changeLimit;
+    }
+    else
+    {
+      sonarValCurr = sonarValLast + changeLimit;
+    }
+  }
+
+  prevIndexReading = readings[indexNum];
+  readings[indexNum] = sonarValCurr;
+
+  totalVal = totalVal + (readings[indexNum] - prevIndexReading);
+  return totalVal / tankReadingAvg;
 }
+
