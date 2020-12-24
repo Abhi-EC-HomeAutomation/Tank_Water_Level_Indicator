@@ -1,6 +1,6 @@
-# Tank_Water_Level_Indicator
+# Tank Water Level Indicator
 
-The final version of this project aims to create a level indicator system for water in the overhead tank and start/stop the motor as per set level. Also messaging system will be implemented to send the status to central server which will also send command to start/stop the motor remotely. 
+The final version of this project aims to create a level indicator system for water in the overhead tank and start/stop the motor as per set level. Also messaging system(MQTT) will be implemented to send the status to central server which will also send command to start/stop the motor remotely. 
 
 Some more features will be:
 1. led indicator for different functions.
@@ -12,3 +12,6 @@ Some more features will be:
 ##Components needed:
 1. ESP32 Dev board
 2. JSN SR04T module
+
+##Current Version functionality:
+This version will just recieve the signal from sonar module and display it on serial monitor.

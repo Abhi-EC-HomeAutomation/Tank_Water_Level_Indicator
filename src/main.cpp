@@ -16,7 +16,7 @@ NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // NewPing setup of pins and
 
 
 //Variables
-int sonarValue = 0;
+int sonarValue = 0; // for storing raw readings from the sensor
 
 
 //defining empty functions
